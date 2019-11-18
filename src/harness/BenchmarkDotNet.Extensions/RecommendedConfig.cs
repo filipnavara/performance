@@ -29,6 +29,11 @@ namespace BenchmarkDotNet.Extensions
                     .DontEnforcePowerPlan(); // make sure BDN does not try to enforce High Performance power plan on Windows
             }
 
+            if (System.Environment.GetEnvironmentVariable("MONO_BDN_ENV_OPTIONS") is string monoEnvOptions)
+            {
+                job = job.WithEnvironmentVariable("MONO_ENV_OPTIONS", monoEnvOptions);
+            }
+
             return DefaultConfig.Instance
                 .With(job.AsDefault()) // tell BDN that this are our default settings
                 .WithArtifactsPath(artifactsPath.FullName)
